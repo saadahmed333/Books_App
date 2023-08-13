@@ -1,10 +1,20 @@
-import { Image, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React from "react";
 import StarRating from "react-native-star-rating";
+import { useNavigation } from "@react-navigation/native";
+import Detail from "./Detail";
+import {useDispatch} from "react-redux"
+import { setBookList } from "../Store/BookList/bookListSlicer";
 const BookItem = ({item}: any) => {
-  const [starRating, setStarRating] = useState(0);
+  const {navigate} = useNavigation<any>()
+  const dispatch = useDispatch()
+
+  const handleItem = () => {
+    dispatch(setBookList(item))
+    navigate(Detail)
+  }
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={() => handleItem()} style={styles.container}>
       <Image
         resizeMode="cover"
         style={styles.itemImage}
@@ -24,7 +34,6 @@ const BookItem = ({item}: any) => {
             disabled={false}
             maxStars={5}
             rating={item?.rating}
-            selectedStar={(rating) => setStarRating(rating)}
             containerStyle={{
               marginVertical: 5,
               width: "50%",
@@ -36,7 +45,7 @@ const BookItem = ({item}: any) => {
         </View>
         <Text style={styles.itemPrice}>${item?.price}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

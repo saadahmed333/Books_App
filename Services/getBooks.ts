@@ -12,6 +12,7 @@ async function fetchBooks() {
         },
       }
     );
+    console.log(response.data, "response.data")
     return response.data;
   } catch (error) {
     console.error("Error fetching books:", error);
